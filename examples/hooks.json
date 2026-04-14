@@ -1,0 +1,34 @@
+{
+  "hooks": {
+    "TeammateIdle": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash -c 'echo \"Teammate idle — verify all files compile before finishing\" >&2; exit 0'"
+          }
+        ]
+      }
+    ],
+    "SubagentStop": [
+      {
+        "matcher": "swiftui-expert|swift-concurrency-expert",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash -c 'echo \"Build check: running swift build\" && swift build 2>&1 | tail -5 || (echo \"Build failed — agent should fix before completing\" >&2; exit 2)'"
+          }
+        ]
+      },
+      {
+        "matcher": "swift-testing-expert",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash -c 'echo \"Test check: running swift test\" && swift test 2>&1 | tail -20 || (echo \"Tests failed — agent should fix before completing\" >&2; exit 2)'"
+          }
+        ]
+      }
+    ]
+  }
+}

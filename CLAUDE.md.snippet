@@ -1,0 +1,24 @@
+<!-- Append this to your project's CLAUDE.md -->
+
+## iOS Agent Team
+
+This project uses specialized iOS agents for development assistance. Claude Code auto-delegates to the right agent based on the task:
+
+- **swiftui-expert**: SwiftUI views, state, navigation, Liquid Glass, charts
+- **swift-concurrency-expert**: async/await, actors, Sendable, Swift 6 migration
+- **swift-testing-expert**: Swift Testing, XCTest migration, parameterized tests
+- **ios-reviewer**: Cross-cutting code review after any changes
+- **ios-lead**: Coordinator for multi-concern tasks and architecture decisions
+
+### Project conventions for agents
+
+<!-- Customize these for your project -->
+- Minimum deployment target: iOS 17
+- Swift language mode: Swift 6
+- Use `@Observable` (not `ObservableObject`) for new code
+- Tests use Swift Testing (`import Testing`), not XCTest
+- Run tests with: `swift test` or `xcodebuild test -scheme YourScheme`
+
+### Skills
+
+Skills in `.claude/skills/` provide reference material that agents preload. Each skill has a `SKILL.md` and a `references/` directory with detailed API guidance. Do not modify skill files — they are upstream dependencies.
