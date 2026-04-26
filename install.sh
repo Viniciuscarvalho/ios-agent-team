@@ -67,5 +67,11 @@ echo "  2. Add your skill content to .claude/skills/ (see .claude/skills/README.
 echo "  3. Start Claude Code and try: 'Build a settings view with toggle switches'"
 echo ""
 echo "Optional — enable agent teams for parallel work:"
-echo '  Add to ~/.claude/settings.json:'
+echo '  Add to .claude/settings.json (project) or ~/.claude/settings.json (global):'
 echo '  { "env": { "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1" } }'
+echo ""
+echo "Recommended — enable subagent context forking so ios-lead's exploration"
+echo "carries into each specialist (cheaper, less re-reading):"
+echo '  Add to .claude/settings.json:'
+echo '  { "env": { "CLAUDE_CODE_FORK_SUBAGENT": "1" } }'
+echo '  See README "Subagent context forking" for details.'

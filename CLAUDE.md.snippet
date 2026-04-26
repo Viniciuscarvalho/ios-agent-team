@@ -10,6 +10,8 @@ This project uses specialized iOS agents for development assistance. Claude Code
 - **ios-reviewer**: Cross-cutting code review after any changes
 - **ios-lead**: Coordinator for multi-concern tasks and architecture decisions
 
+Subagents in this project run with context forking enabled (`CLAUDE_CODE_FORK_SUBAGENT=1` in `.claude/settings.json`). The orchestrator does the file-reading and exploration once; specialists inherit that context and focus on their domain. If you disable the env var, specialists fall back to fresh-context mode and will re-read files themselves.
+
 ### Project conventions for agents
 
 <!-- Customize these for your project -->

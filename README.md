@@ -102,6 +102,24 @@ Requires the experimental flag in `~/.claude/settings.json`:
 }
 ```
 
+### Subagent context forking
+
+Claude Code can fork the parent agent's full conversation into each subagent it spawns, instead of starting the child blank. For this team that means `ios-lead` does the upfront exploration once (reads `Package.swift`, scans the affected sources, sketches a plan), and each specialist it delegates to inherits that context — no re-reading, no re-deriving the deployment target, no re-asking "what file should I look at?". Children 2..N also share the parent's prompt-cache prefix, so wide fan-out gets cheaper.
+
+Enable it per-project in `.claude/settings.json`:
+
+```json
+{
+  "env": {
+    "CLAUDE_CODE_FORK_SUBAGENT": "1"
+  }
+}
+```
+
+For ad-hoc opt-in without the env var, prefix a delegation with the `/fork` slash command — useful when the parent has just done a chunky exploration you want the next subagent to inherit.
+
+This is independent of `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS`; you can run either, both, or neither. **Caveat**: if you use `feature-marker`'s spec-driven mode, prefer `/fork` over the env var so forking stays opt-in per spawn and doesn't double-inherit through the spec orchestration.
+
 ## Skills
 
 Agents load domain knowledge from `.claude/skills/`. Each skill has a `SKILL.md` and a `references/` directory. See [`.claude/skills/README.md`](.claude/skills/README.md) for the full directory structure.
@@ -150,7 +168,7 @@ python sdk/ios_ci_review.py --path ./Sources
 
 ## Requirements
 
-- Claude Code v2.1.0+ (subagents) or v2.1.32+ (agent teams)
+- Claude Code v2.1.0+ (subagents) or v2.1.32+ (agent teams); subagent context forking requires the Claude Code build that ships `CLAUDE_CODE_FORK_SUBAGENT` (verify against your installed version)
 - Anthropic API key or Claude Pro/Team/Enterprise subscription
 
 ## License
