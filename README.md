@@ -126,6 +126,22 @@ Agents load domain knowledge from `.claude/skills/`. Each skill has a `SKILL.md`
 
 You can add your own skills by creating a directory under `.claude/skills/` and referencing it in an agent's `skills:` frontmatter field.
 
+## Memory
+
+[#memory](#memory)
+
+Each agent has `memory: project` in its frontmatter, which gives it its own persistent `MEMORY.md`, separate from your project's `CLAUDE.md` and from the main session's auto memory. Claude Code auto-enables Read/Write/Edit for that agent and injects the first 200 lines of its `MEMORY.md` into the system prompt on every invocation — so specialists carry forward architecture decisions, migration progress, and recurring issues instead of re-deriving them each session.
+
+With `project` scope, memory lives at `.claude/agent-memory/<agent-name>/MEMORY.md` inside the consuming project and is version-controllable, so the whole team benefits from what an agent has learned. Two other scopes are available:
+
+| Scope     | Storage location                     | Use case                                        |
+| --------- | ------------------------------------- | ------------------------------------------------ |
+| `project` | `.claude/agent-memory/<name>/`        | Team-shared, project-specific knowledge (default here) |
+| `user`    | `~/.claude/agent-memory/<name>/`      | Learnings you want to carry across every project |
+| `local`   | `.claude/agent-memory-local/<name>/`  | Personal notes for this project, not committed   |
+
+Each agent's `## Memory` section (near the end of its `.md` file) tells it what's worth persisting in its domain. Run `/memory` in a Claude Code session to browse or edit any agent's memory file directly. Requires Claude Code v2.1.33+.
+
 ## Customization
 
 **Change models** — Edit any agent's `model:` field (`opus`, `sonnet`, or `haiku`).
@@ -169,6 +185,7 @@ python sdk/ios_ci_review.py --path ./Sources
 ## Requirements
 
 - Claude Code v2.1.0+ (subagents) or v2.1.32+ (agent teams); subagent context forking requires the Claude Code build that ships `CLAUDE_CODE_FORK_SUBAGENT` (verify against your installed version)
+- Persistent agent memory (the `memory:` frontmatter field, enabled on all five agents) requires Claude Code v2.1.33+
 - Anthropic API key or Claude Pro/Team/Enterprise subscription
 
 ## License

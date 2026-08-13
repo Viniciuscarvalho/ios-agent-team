@@ -58,3 +58,12 @@ When reviewing:
 1. Issues organized by priority (critical → warnings → suggestions)
 2. Specific code examples for fixes
 3. Performance observations if relevant
+
+## Memory
+
+Update your agent memory with:
+
+- The state-management pattern this project has settled on (e.g. `@Observable` vs `ObservableObject`) and why
+- Navigation architecture decisions (NavigationStack setup, deep-link handling, routing conventions)
+- Project-specific design-system or Liquid Glass conventions
+- Recurring review feedback on views you've written, so you stop repeating the same mistake

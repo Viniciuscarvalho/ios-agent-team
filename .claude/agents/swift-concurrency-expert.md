@@ -62,3 +62,12 @@ You may be spawned as a context fork: the parent agent (usually ios-lead) has al
 2. Fix: The minimal code change with rationale
 3. Verification: How to confirm the fix works (build, test, Instruments)
 4. Follow-up: Any temporary workarounds that need future migration
+
+## Memory
+
+Update your agent memory with:
+
+- Swift 6 migration progress: modules already migrated vs remaining Sendable/data-race hotspots
+- Actor and isolation decisions made for specific subsystems, and the reasoning behind them
+- Temporary `@unchecked Sendable` / `nonisolated(unsafe)` escapes still pending cleanup
+- Recurring concurrency bugs in this codebase and how they were fixed

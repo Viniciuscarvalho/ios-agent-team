@@ -67,3 +67,12 @@ When migrating:
 1. Before/after comparison for each converted pattern
 2. Notes on what stays in XCTest and why
 3. Verification steps (run tests, check diagnostics)
+
+## Memory
+
+Update your agent memory with:
+
+- Test conventions adopted in this project (naming, tagging, parameterization style)
+- XCTest → Swift Testing migration progress: suites converted vs still pending
+- Flaky tests identified, their root cause, and how they were stabilized
+- Shared test fixtures or helpers worth reusing instead of rebuilding

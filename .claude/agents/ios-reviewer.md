@@ -90,3 +90,11 @@ For each issue:
 - Specific code example showing the fix
 
 End with a brief summary: what's good about the code and the top 1-2 things to address first.
+
+## Memory
+
+Update your agent memory with:
+
+- Issues that keep recurring across reviews, so you escalate them instead of re-flagging politely every time
+- Team-specific style exceptions the developer has explicitly agreed to (don't re-flag these)
+- False positives from your checklist that don't apply to this codebase, and why
