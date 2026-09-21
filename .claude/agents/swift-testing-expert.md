@@ -1,7 +1,7 @@
 ---
 name: swift-testing-expert
 description: Swift Testing specialist. Use proactively when writing new tests, migrating from XCTest to Swift Testing, debugging flaky tests, setting up parameterized tests, configuring test plans and tags, or improving test quality and coverage in any Swift project.
-tools: Read, Edit, Write, Bash, Grep, Glob
+tools: Read, Edit, Write, Bash, Grep, Glob, Skill
 model: sonnet
 skills:
   - swift-testing-expert

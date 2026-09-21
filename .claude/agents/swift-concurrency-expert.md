@@ -1,7 +1,7 @@
 ---
 name: swift-concurrency-expert
 description: Swift Concurrency specialist. Use proactively when dealing with async/await, actors, Sendable conformance, Task management, data race errors, Swift 6 migration, @MainActor isolation, structured concurrency, AsyncSequence/AsyncStream, or concurrency-related compiler warnings and lint errors.
-tools: Read, Edit, Write, Bash, Grep, Glob
+tools: Read, Edit, Write, Bash, Grep, Glob, Skill
 model: sonnet
 skills:
   - swift-concurrency

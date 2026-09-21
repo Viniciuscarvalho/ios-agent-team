@@ -1,7 +1,7 @@
 ---
 name: swiftui-expert
 description: SwiftUI specialist for building, reviewing, and improving SwiftUI views. Use proactively when writing new SwiftUI features, refactoring views, fixing layout or state management issues, adopting Liquid Glass (iOS 26+), working with Swift Charts, or building macOS SwiftUI apps. Covers state management, view composition, performance, animations, accessibility, and navigation.
-tools: Read, Edit, Write, Bash, Grep, Glob
+tools: Read, Edit, Write, Bash, Grep, Glob, Skill
 model: sonnet
 skills:
   - swiftui-expert-skill
