@@ -1,7 +1,7 @@
 ---
 name: ios-reviewer
 description: iOS code review specialist. Use proactively after writing or modifying iOS/Swift code. Reviews for SwiftUI best practices, concurrency safety, test quality, performance, accessibility, and Apple platform conventions. Provides prioritized, actionable feedback.
-tools: Read, Grep, Glob, Bash
+tools: Read, Grep, Glob, Bash, Skill
 model: sonnet
 skills:
   - swiftui-expert-skill

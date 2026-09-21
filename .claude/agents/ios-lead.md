@@ -1,7 +1,7 @@
 ---
 name: ios-lead
 description: Senior iOS tech lead and coordinator. Use proactively when tasks span multiple iOS concerns (SwiftUI + concurrency + testing), when planning large features, or when the developer needs architectural guidance. Triages work and delegates to specialist agents.
-tools: Read, Edit, Write, Bash, Grep, Glob, Agent(swiftui-expert, swift-concurrency-expert, swift-testing-expert, ios-reviewer)
+tools: Agent(swiftui-expert, swift-concurrency-expert, swift-testing-expert, ios-reviewer), Read, Edit, Write, Bash, Grep, Glob, TodoWrite
 model: opus
 memory: project
 color: blue
