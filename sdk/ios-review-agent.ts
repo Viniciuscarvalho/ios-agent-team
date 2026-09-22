@@ -13,11 +13,11 @@
  */
 
 import { query, ClaudeAgentOptions, AgentDefinition } from "@anthropic-ai/claude-agent-sdk";
-import { routeReviewWithJev } from "./jev-review-router";
+import { Reviewer, routeReviewWithJev, selectAgents } from "./jev-review-router";
 
 // Define the iOS specialist agents programmatically
 // These mirror the .claude/agents/*.md definitions but work in SDK context
-const agents: Record<string, AgentDefinition> = {
+const agents: Record<Reviewer, AgentDefinition> = {
   "swiftui-expert": {
     description:
       "SwiftUI specialist for building, reviewing, and improving SwiftUI views. Covers state management, view composition, performance, animations, accessibility, and navigation.",
@@ -68,6 +68,7 @@ async function runIOSReview(targetPath: string = ".", task: string = "") {
   console.log("🍎 Running iOS Agent Team review...\n");
 
   const reviewers = await routeReviewWithJev(task);
+  const selectedAgents = selectAgents(agents, reviewers);
   console.log(`  → Reviewers: ${reviewers.join(", ")}`);
 
   // Phase 1: Each specialist reviews in parallel via subagents
@@ -82,7 +83,7 @@ report with sections: Critical, Warnings, Suggestions.
 
   const options: ClaudeAgentOptions = {
     allowed_tools: ["Read", "Glob", "Grep", "Agent"],
-    agents,
+    agents: selectedAgents,
     model: "claude-sonnet-4-6",
   };
 

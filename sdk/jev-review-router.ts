@@ -19,6 +19,13 @@ export function reviewersFromProbabilities(
   return selected.length ? selected : [...REVIEWERS];
 }
 
+export function selectAgents<T>(
+  agents: Record<Reviewer, T>,
+  reviewers: Reviewer[],
+): Record<string, T> {
+  return Object.fromEntries(reviewers.map((reviewer) => [reviewer, agents[reviewer]]));
+}
+
 export async function routeReviewWithJev(
   task: string,
   apiKey = process.env.TYPESAFE_API_KEY,
