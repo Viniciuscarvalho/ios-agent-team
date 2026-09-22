@@ -176,11 +176,22 @@ The `sdk/` directory has TypeScript and Python examples for running review agent
 
 ```bash
 # TypeScript
-bun run sdk/ios-review-agent.ts
+export TYPESAFE_API_KEY="..." # optional: enables Jev review routing
+bun test sdk/jev-review-router.test.ts
+bun run sdk/ios-review-agent.ts ./Sources "Review async image loading and its tests"
 
 # Python
 python sdk/ios_ci_review.py --path ./Sources
 ```
+
+### Optional Jev review routing
+
+The TypeScript review runner can use [Jev](https://typesafe.ai) to select the SwiftUI,
+concurrency, and testing specialists relevant to a review request. It sends only the
+task text to TypeSafe; source code and the API key stay out of the request body and
+repository. Set `TYPESAFE_API_KEY` in the environment and pass a task as the second
+argument. A missing key, an API failure, or no strong signal keeps the existing full
+three-specialist review, so routing never silently narrows coverage.
 
 ## Requirements
 
