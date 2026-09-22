@@ -9,10 +9,11 @@
  *
  * Usage:
  *   bun install @anthropic-ai/claude-agent-sdk
- *   bun run ios-review-agent.ts
+ *   TYPESAFE_API_KEY=... bun run ios-review-agent.ts ./Sources "Review async code"
  */
 
 import { query, ClaudeAgentOptions, AgentDefinition } from "@anthropic-ai/claude-agent-sdk";
+import { routeReviewWithJev } from "./jev-review-router";
 
 // Define the iOS specialist agents programmatically
 // These mirror the .claude/agents/*.md definitions but work in SDK context
@@ -63,19 +64,19 @@ Provide specific improvement suggestions with code examples.`,
   },
 };
 
-async function runIOSReview(targetPath: string = ".") {
+async function runIOSReview(targetPath: string = ".", task: string = "") {
   console.log("🍎 Running iOS Agent Team review...\n");
+
+  const reviewers = await routeReviewWithJev(task);
+  console.log(`  → Reviewers: ${reviewers.join(", ")}`);
 
   // Phase 1: Each specialist reviews in parallel via subagents
   const reviewPrompt = `
-You are an iOS tech lead coordinating a code review. Use each of your specialist
-subagents to review the codebase at "${targetPath}":
+You are an iOS tech lead coordinating a code review. Review the codebase at "${targetPath}".
+${task ? `The developer requested: ${task}` : "No scoped request was supplied; use a full review."}
 
-1. Use the swiftui-expert agent to review all SwiftUI view files
-2. Use the swift-concurrency-expert agent to review concurrency patterns
-3. Use the swift-testing-expert agent to review test quality
-
-Run all three reviews, then synthesize their findings into a single prioritized
+Use only these specialist subagents: ${reviewers.join(", ")}.
+Run those reviews, then synthesize their findings into a single prioritized
 report with sections: Critical, Warnings, Suggestions.
 `;
 
@@ -110,4 +111,4 @@ report with sections: Critical, Warnings, Suggestions.
 }
 
 // Run
-runIOSReview(process.argv[2] || ".").catch(console.error);
+runIOSReview(process.argv[2] || ".", process.argv[3] || "").catch(console.error);
