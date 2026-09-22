@@ -189,8 +189,8 @@ python sdk/ios_ci_review.py --path ./Sources
 The TypeScript review runner can use [Jev](https://typesafe.ai) to select the SwiftUI,
 concurrency, and testing specialists relevant to a review request. It sends only the
 task text to TypeSafe; source code and the API key stay out of the request body and
-repository. Set `TYPESAFE_API_KEY` in the environment and pass a task as the second
-argument. A missing key, an API failure, or no strong signal keeps the existing full
+repository. Set `TYPESAFE_API_KEY` in the environment or a local `.env` file and pass
+a task as the second argument. A missing key, an API failure, or no strong signal keeps the existing full
 three-specialist review, so routing never silently narrows coverage.
 
 ## Requirements
