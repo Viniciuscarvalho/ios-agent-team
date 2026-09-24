@@ -1,0 +1,6 @@
+{
+  "name": "ios-agent-team",
+  "version": "1.0.0",
+  "description": "Specialist iOS agents for SwiftUI, concurrency, testing, and review.",
+  "contextFileName": "GEMINI.md"
+}
