@@ -1,57 +1,79 @@
 #!/bin/bash
-# install.sh — Install iOS Agent Team into your project
-# Usage:
-#   ./install.sh [target-project-path]
-#   bash <(curl -s https://raw.githubusercontent.com/viniciuscarvalho/ios-agent-team/main/install.sh)
+# install.sh — Install or update iOS Agent Team
+# Usage: ./install.sh [--provider claude|codex|gemini|all] [--update] [target-project-path]
 
 set -e
 
+PROVIDER="claude"
+UPDATE=false
+TARGET="."
+
+while [ "$#" -gt 0 ]; do
+    case "$1" in
+        --provider) PROVIDER="$2"; shift 2 ;;
+        --update) UPDATE=true; shift ;;
+        -h|--help)
+            echo "Usage: $0 [--provider claude|codex|gemini|all] [--update] [target-project-path]"
+            exit 0
+            ;;
+        *) TARGET="$1"; shift ;;
+    esac
+done
+
 # If run via curl (no local repo), clone to temp dir first
 if [ ! -f "$(dirname "$0")/.claude/agents/ios-lead.md" ] && [ ! -f ".claude/agents/ios-lead.md" ]; then
-    TMPDIR=$(mktemp -d)
+    TEMP_DIR=$(mktemp -d)
     echo "Downloading iOS Agent Team..."
-    git clone --depth 1 https://github.com/viniciuscarvalho/ios-agent-team.git "$TMPDIR/ios-agent-team" 2>/dev/null
-    SCRIPT_DIR="$TMPDIR/ios-agent-team"
-    TARGET="${1:-.}"
-    CLEANUP="$TMPDIR"
+    git clone --depth 1 https://github.com/viniciuscarvalho/ios-agent-team.git "$TEMP_DIR/ios-agent-team" 2>/dev/null
+    SCRIPT_DIR="$TEMP_DIR/ios-agent-team"
+    CLEANUP="$TEMP_DIR"
 else
     SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
-    TARGET="${1:-.}"
     CLEANUP=""
 fi
 
-echo "Installing iOS Agent Team into: $TARGET"
+case "$PROVIDER" in
+    claude|codex|gemini|all) ;;
+    *) echo "Unknown provider: $PROVIDER" >&2; exit 1 ;;
+esac
 
-# Create directories
-mkdir -p "$TARGET/.claude/agents"
-mkdir -p "$TARGET/.claude/skills"
-
-# Copy agents
-echo "  Copying agents..."
-cp "$SCRIPT_DIR/.claude/agents/"*.md "$TARGET/.claude/agents/"
-
-# Copy skills (if present in this repo)
-if [ -d "$SCRIPT_DIR/.claude/skills" ] && [ "$(ls -A "$SCRIPT_DIR/.claude/skills" 2>/dev/null)" ]; then
-    echo "  Copying skills..."
-    cp -r "$SCRIPT_DIR/.claude/skills/"* "$TARGET/.claude/skills/"
-fi
-
-# Append CLAUDE.md snippet
-if [ -f "$TARGET/CLAUDE.md" ]; then
-    echo ""
-    echo "  Found existing CLAUDE.md. Append the iOS Agent Team section? (y/N)"
-    read -r REPLY
-    if [ "$REPLY" = "y" ] || [ "$REPLY" = "Y" ]; then
-        echo "" >> "$TARGET/CLAUDE.md"
-        cat "$SCRIPT_DIR/CLAUDE.md.snippet" >> "$TARGET/CLAUDE.md"
-        echo "  Appended to CLAUDE.md"
-    else
-        echo "  Skipped. You can manually append CLAUDE.md.snippet later."
+install_claude() {
+    mkdir -p "$TARGET/.claude/agents" "$TARGET/.claude/skills"
+    cp "$SCRIPT_DIR/.claude/agents/"*.md "$TARGET/.claude/agents/"
+    cp -R "$SCRIPT_DIR/.claude/skills/." "$TARGET/.claude/skills/"
+    if [ ! -f "$TARGET/CLAUDE.md" ]; then
+        cp "$SCRIPT_DIR/CLAUDE.md.snippet" "$TARGET/CLAUDE.md"
     fi
-else
-    cp "$SCRIPT_DIR/CLAUDE.md.snippet" "$TARGET/CLAUDE.md"
-    echo "  Created CLAUDE.md (customize the project conventions section)"
-fi
+}
+
+install_codex() {
+    mkdir -p "$TARGET/.agents"
+    cp -R "$SCRIPT_DIR/.codex" "$TARGET/"
+    cp -R "$SCRIPT_DIR/.agents/." "$TARGET/.agents/"
+    if [ ! -f "$TARGET/AGENTS.md" ]; then
+        cp "$SCRIPT_DIR/AGENTS.md" "$TARGET/AGENTS.md"
+    fi
+}
+
+install_gemini() {
+    if ! command -v gemini >/dev/null 2>&1; then
+        echo "Gemini CLI is required for the Gemini adapter." >&2
+        return 1
+    fi
+    if [ "$UPDATE" = true ]; then
+        gemini extensions update ios-agent-team
+    else
+        gemini extensions install --consent "$SCRIPT_DIR"
+    fi
+}
+
+echo "Installing $PROVIDER adapter into: $TARGET"
+case "$PROVIDER" in
+    claude) install_claude ;;
+    codex) install_codex ;;
+    gemini) install_gemini ;;
+    all) install_claude; install_codex; install_gemini ;;
+esac
 
 # Clean up temp clone if needed
 if [ -n "$CLEANUP" ]; then
@@ -59,19 +81,4 @@ if [ -n "$CLEANUP" ]; then
 fi
 
 echo ""
-echo "Done! iOS Agent Team installed."
-echo ""
-echo "Next steps:"
-echo "  1. Edit CLAUDE.md to set your deployment target, Swift version, and conventions"
-echo "  2. Add your skill content to .claude/skills/ (see .claude/skills/README.md)"
-echo "  3. Start Claude Code and try: 'Build a settings view with toggle switches'"
-echo ""
-echo "Optional — enable agent teams for parallel work:"
-echo '  Add to .claude/settings.json (project) or ~/.claude/settings.json (global):'
-echo '  { "env": { "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1" } }'
-echo ""
-echo "Recommended — enable subagent context forking so ios-lead's exploration"
-echo "carries into each specialist (cheaper, less re-reading):"
-echo '  Add to .claude/settings.json:'
-echo '  { "env": { "CLAUDE_CODE_FORK_SUBAGENT": "1" } }'
-echo '  See README "Subagent context forking" for details.'
+echo "Done. Re-run with --update after pulling a newer release."

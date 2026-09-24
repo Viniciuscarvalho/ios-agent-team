@@ -1,182 +1,105 @@
 # iOS Agent Team
 
-Um kit para usar no **Claude Code** ao desenvolver projetos Swift. Ele instala cinco
-agentes especializados em iOS, um guia de convenções e exemplos para equipes de
-agentes e revisões programáticas.
+A portable iOS specialist team for Claude Code, Codex, and Gemini CLI. It provides five agents for SwiftUI, Swift Concurrency, testing, and code review; it is not an iOS app, CI service, or hosted API.
 
-> **Escopo atual:** os agentes em `.claude/agents/` usam o formato do Claude Code.
-> Este repositório não oferece adaptadores para Codex, Gemini ou GitHub Copilot. Os
-> exemplos em `sdk/` também usam o Claude Agent SDK.
+## What is included
 
-## O que está incluído
-
-| Componente | Para que serve |
+| Agent | Responsibility |
 | --- | --- |
-| `ios-lead` | Coordena tarefas que envolvem mais de uma área. |
-| `swiftui-expert` | Cria e revisa views, estado, navegação, desempenho e acessibilidade. |
-| `swift-concurrency-expert` | Trabalha com `async/await`, actors, `Sendable` e migração para Swift 6. |
-| `swift-testing-expert` | Escreve e melhora testes com Swift Testing e XCTest. |
-| `ios-reviewer` | Faz revisão transversal de SwiftUI, concorrência, testes e acessibilidade. |
-| `CLAUDE.md.snippet` | Convenções iniciais para o projeto consumidor. |
-| `examples/` | Configuração opcional de equipes, hooks e prompts prontos. |
-| `sdk/` | Exemplos TypeScript e Python de revisão via Claude Agent SDK. |
+| `ios-lead` | Coordinates multi-area iOS work. |
+| `swiftui-expert` | SwiftUI views, state, navigation, performance, and accessibility. |
+| `swift-concurrency-expert` | `async`/`await`, actors, `Sendable`, and Swift 6 migration. |
+| `swift-testing-expert` | Swift Testing, XCTest, coverage, and flaky-test fixes. |
+| `ios-reviewer` | Read-only cross-cutting review. |
 
-## Como funciona
+The same team is packaged in each runtime's native format:
 
-Depois da instalação, o Claude Code encontra as definições em
-`.claude/agents/`. Você pode pedir uma tarefa diretamente; para tarefas amplas,
-`ios-lead` coordena os especialistas. Cada agente traz instruções para sua área e
-persiste memória de projeto quando a versão do Claude Code suporta esse recurso.
+| Runtime | Installed artifacts |
+| --- | --- |
+| Claude Code | `.claude/agents/`, `.claude/skills/`, and `CLAUDE.md` |
+| Codex | `.codex/agents/`, `.agents/skills/`, and `AGENTS.md` |
+| Gemini CLI | A local extension with `agents/` and `GEMINI.md` |
 
-```
-Solicitação no Claude Code
-        ↓
-ios-lead ou especialista adequado
-        ↓
-SwiftUI · Concorrência · Testes · Revisão
-```
+## Install and update
 
-Não há aplicativo iOS, servidor HTTP, CLI publicada ou workflow de CI instalado
-automaticamente por este repositório.
-
-## Requisitos
-
-- Claude Code 2.1.33+ para memória persistente dos agentes.
-- Uma conta, assinatura ou chave de API compatível com Claude Code.
-- Um projeto Swift/SwiftUI onde os arquivos `.claude/` possam ser instalados.
-
-Para equipes de agentes, habilite as variáveis experimentais em
-`.claude/settings.json`:
-
-```json
-{
-  "env": {
-    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1",
-    "CLAUDE_CODE_FORK_SUBAGENT": "1"
-  }
-}
-```
-
-`CLAUDE_CODE_FORK_SUBAGENT` é opcional, mas permite que especialistas herdem a
-exploração já feita pelo coordenador.
-
-## Instalação
-
-No diretório raiz do projeto Swift que receberá os agentes:
+Clone the repository, then install the adapter your project uses:
 
 ```bash
-bash <(curl -fsSL https://raw.githubusercontent.com/viniciuscarvalho/ios-agent-team/main/install.sh)
+git clone https://github.com/viniciuscarvalho/ios-agent-team.git
+cd ios-agent-team
+./install.sh --provider codex /path/to/your-ios-project
+./install.sh --provider claude /path/to/your-ios-project
+./install.sh --provider gemini
 ```
 
-O instalador copia `.claude/agents/` e `.claude/skills/`, e cria ou oferece anexar
-`CLAUDE.md.snippet` ao `CLAUDE.md` do projeto consumidor.
+`--provider all` installs every available adapter. Gemini requires the `gemini` CLI because its adapter is installed as a Gemini extension. The script never overwrites an existing `AGENTS.md` or `CLAUDE.md`.
 
-Para instalar a partir de um clone local:
+To update a clone, pull it and repeat the command with `--update`:
 
 ```bash
-git clone https://github.com/viniciuscarvalho/ios-agent-team.git /tmp/ios-agent-team
-/tmp/ios-agent-team/install.sh /caminho/do/seu-projeto-ios
+git pull --ff-only
+./install.sh --provider codex --update /path/to/your-ios-project
+./install.sh --provider claude --update /path/to/your-ios-project
+./install.sh --provider gemini --update
 ```
 
-## Uso rápido
+For a one-line Claude or Codex installation, pass the same flags after the remote script:
 
-Abra o projeto consumidor no Claude Code e descreva o trabalho normalmente:
+```bash
+bash <(curl -fsSL https://raw.githubusercontent.com/viniciuscarvalho/ios-agent-team/main/install.sh) --provider codex /path/to/your-ios-project
+```
+
+## Quick start
+
+Open the installed project with your chosen runtime and ask for work normally, or select an agent explicitly when your runtime supports it:
 
 ```text
-Crie uma tela de configurações em SwiftUI com toggles acessíveis.
-Corrija os erros de Sendable depois da migração para Swift 6.
-Migre estes testes XCTest para Swift Testing.
-Revise as alterações deste pull request.
+Review this SwiftUI settings screen for VoiceOver, state ownership, and Swift 6 safety.
+Migrate these XCTest cases to Swift Testing.
+Investigate the Sendable errors in this feature.
 ```
 
-Para chamar o coordenador explicitamente:
+`ios-lead` is the coordinator for broad tasks. `ios-reviewer` is intentionally read-only; the other specialists may edit files when asked.
 
-```bash
-claude --agent ios-lead
-```
+## Jev provider routing
 
-Para uma tarefa ampla, peça uma equipe e atribua áreas sem sobreposição:
+Jev chooses a runtime before any provider SDK is started. It receives only the task text and a caller-provided allowlist; application code validates the result and falls back deterministically if the key is absent or the API fails.
 
 ```text
-Crie uma equipe para implementar o onboarding:
-- swiftui-expert: telas e navegação
-- swift-concurrency-expert: carregamento assíncrono
-- swift-testing-expert: testes
+task → Jev → allowed provider (Claude / Codex / Gemini) → native runtime → selected iOS specialists
 ```
 
-Veja mais prompts copiáveis em
-[`examples/agent-team-prompts.md`](examples/agent-team-prompts.md).
+Create a local `.env` with the key (it is ignored by Git):
 
-## Revisões programáticas
+```bash
+TYPESAFE_API_KEY=your_key
+```
 
-`sdk/ios-review-agent.ts` e `sdk/ios_ci_review.py` são exemplos para CI, bots de
-pull request ou ferramentas internas. Eles não fazem parte da instalação dos
-arquivos `.claude/` e exigem autenticação válida do Claude Agent SDK.
+Use the router to obtain the provider and the relevant specialists. The output is JSON and never starts an LLM itself:
 
-TypeScript:
+```bash
+IOS_AGENT_PROVIDERS=codex,gemini bun run sdk/jev-route.ts "Review this SwiftUI screen and its tests"
+```
+
+The existing `sdk/ios-review-agent.ts` remains the optional Claude Agent SDK adapter. It calls Jev before `query()` and passes only Jev-selected specialist definitions to Claude. It requires the Claude SDK and its own authentication:
 
 ```bash
 bun add @anthropic-ai/claude-agent-sdk
-bun run sdk/ios-review-agent.ts ./Sources "Review async image loading and its tests"
+bun run sdk/ios-review-agent.ts ./Sources "Review async image loading"
 ```
 
-Python:
+No Codex or Gemini SDK runner is included: their native project adapters are installed instead. This keeps provider credentials and execution under the respective CLI rather than pretending the runtimes have a shared SDK.
 
-```bash
-pip install claude-agent-sdk
-python sdk/ios_ci_review.py --path ./Sources
-```
-
-## Jev antes do Claude Agent SDK
-
-O runner TypeScript usa [Jev](https://typesafe.ai) como seletor antes de iniciar o
-Claude Agent SDK. Jev avalia somente o texto da tarefa e seleciona os especialistas
-de SwiftUI, concorrência e testes. O runner entrega ao Claude SDK apenas as definições
-selecionadas, reduzindo as chamadas de subagentes fora do escopo.
-
-```
-Texto da revisão → Jev → agentes selecionados → Claude Agent SDK
-```
-
-Crie um `.env` local (ele é ignorado pelo Git):
-
-```bash
-TYPESAFE_API_KEY=sua_chave
-```
-
-Depois inclua uma descrição específica da revisão como segundo argumento:
-
-```bash
-bun run sdk/ios-review-agent.ts ./Sources "Review the layout and VoiceOver labels"
-```
-
-Jev recebe somente a tarefa, não o código-fonte. Sem chave, com falha da API ou sem
-um sinal forte, o runner preserva a revisão completa com os três especialistas para
-não reduzir cobertura de forma silenciosa. Valide a regra localmente com:
+## Validation
 
 ```bash
 bun test sdk/jev-review-router.test.ts
 ```
 
-## Personalização
+The tests cover deterministic specialist and provider fallbacks. They do not prove provider authentication or a live Claude, Codex, or Gemini run.
 
-- Ajuste destino mínimo, versão Swift e convenções no `CLAUDE.md` do projeto que
-  recebeu o kit.
-- Edite o campo `model` dos agentes somente se a sua instalação do Claude Code
-  suportar o modelo escolhido.
-- Adicione skills em `.claude/skills/` e referencie seus nomes no frontmatter do
-  agente que deve carregá-las.
-- Use `examples/settings.json` e `examples/hooks.json` como ponto de partida; eles
-  não são copiados ou ativados automaticamente.
+`examples/settings.json` and `examples/hooks.json` remain Claude Code examples; do not copy them into Codex or Gemini projects.
 
-## Limitações atuais
-
-- Integração nativa: somente Claude Code.
-- SDKs de revisão: dependem do Claude Agent SDK e da respectiva autenticação.
-- Jev: disponível apenas no runner TypeScript e usado somente para selecionar
-  especialistas antes do Claude Agent SDK.
-- Nenhum adaptador para Codex, Gemini ou Copilot está incluído.
-
-## Licença
+## License
 
 MIT
