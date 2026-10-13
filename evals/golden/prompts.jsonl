@@ -1,0 +1,60 @@
+{"id": "g01", "prompt": "Crie uma tela de configurações com toggles e um picker de tema", "lang": "pt", "expected": "swiftui", "ambiguous": false}
+{"id": "g02", "prompt": "Add a Liquid Glass effect to the bottom toolbar", "lang": "en", "expected": "swiftui", "ambiguous": false}
+{"id": "g03", "prompt": "Minha lista com ForEach está piscando ao atualizar, como arrumo a identidade das linhas?", "lang": "pt", "expected": "swiftui", "ambiguous": false}
+{"id": "g04", "prompt": "Refactor this 400-line ProfileView into smaller subviews", "lang": "en", "expected": "swiftui", "ambiguous": false}
+{"id": "g05", "prompt": "Troque ObservableObject por @Observable nesta view", "lang": "pt", "expected": "swiftui", "ambiguous": false}
+{"id": "g06", "prompt": "Build a Swift Charts bar chart for weekly step counts with VoiceOver support", "lang": "en", "expected": "swiftui", "ambiguous": false}
+{"id": "g07", "prompt": "O NavigationStack perde o caminho ao girar o iPad, corrija", "lang": "pt", "expected": "swiftui", "ambiguous": false}
+{"id": "g08", "prompt": "Why does my sheet dismiss when the parent view state changes?", "lang": "en", "expected": "swiftui", "ambiguous": false}
+{"id": "g09", "prompt": "Adicione animação de transição entre o card e a tela de detalhe", "lang": "pt", "expected": "swiftui", "ambiguous": false}
+{"id": "g10", "prompt": "Make this settings screen accessible with Dynamic Type up to AX5", "lang": "en", "expected": "swiftui", "ambiguous": false}
+{"id": "g11", "prompt": "Crie um app de menu bar para macOS com SwiftUI e janela de preferências", "lang": "pt", "expected": "swiftui", "ambiguous": false}
+{"id": "g12", "prompt": "Scrolling this LazyVStack of images is janky, how do I optimize it?", "lang": "en", "expected": "swiftui", "ambiguous": true}
+{"id": "g13", "prompt": "Corrija os erros de Sendable depois que ativei o Swift 6 language mode", "lang": "pt", "expected": "concurrency", "ambiguous": false}
+{"id": "g14", "prompt": "Convert this completion-handler network client to async/await", "lang": "en", "expected": "concurrency", "ambiguous": false}
+{"id": "g15", "prompt": "Explique por que esse @MainActor está dando data race warning", "lang": "pt", "expected": "concurrency", "ambiguous": false}
+{"id": "g16", "prompt": "Wrap this delegate callback API into an AsyncStream", "lang": "en", "expected": "concurrency", "ambiguous": false}
+{"id": "g17", "prompt": "Migre este singleton para um actor sem quebrar os chamadores", "lang": "pt", "expected": "concurrency", "ambiguous": false}
+{"id": "g18", "prompt": "I get 'sending risks causing data races' on this Task, what does it mean?", "lang": "en", "expected": "concurrency", "ambiguous": false}
+{"id": "g19", "prompt": "Cancele a Task anterior quando o usuário digita uma nova busca", "lang": "pt", "expected": "concurrency", "ambiguous": false}
+{"id": "g20", "prompt": "Is it safe to use Task.detached here with a non-Sendable model?", "lang": "en", "expected": "concurrency", "ambiguous": false}
+{"id": "g21", "prompt": "Meu Core Data context está sendo usado fora da thread certa, como isolar?", "lang": "pt", "expected": "concurrency", "ambiguous": true}
+{"id": "g22", "prompt": "Enable strict concurrency checking module by module and fix warnings", "lang": "en", "expected": "concurrency", "ambiguous": false}
+{"id": "g23", "prompt": "Escreva testes com Swift Testing para o CartCalculator", "lang": "pt", "expected": "testing", "ambiguous": false}
+{"id": "g24", "prompt": "Migrate our XCTest suite for the Auth module to Swift Testing", "lang": "en", "expected": "testing", "ambiguous": false}
+{"id": "g25", "prompt": "Esse teste falha só no CI, parece flaky, ajude a depurar", "lang": "pt", "expected": "testing", "ambiguous": false}
+{"id": "g26", "prompt": "Turn these five similar tests into one parameterized test", "lang": "en", "expected": "testing", "ambiguous": false}
+{"id": "g27", "prompt": "Como uso tags e test plans para separar testes rápidos dos lentos?", "lang": "pt", "expected": "testing", "ambiguous": false}
+{"id": "g28", "prompt": "How do I wait for an async callback in Swift Testing without sleeping?", "lang": "en", "expected": "testing", "ambiguous": false}
+{"id": "g29", "prompt": "Crie um mock do repositório e use nos testes do ViewModel", "lang": "pt", "expected": "testing", "ambiguous": false}
+{"id": "g30", "prompt": "Replace XCTestExpectation usage with confirmation()", "lang": "en", "expected": "testing", "ambiguous": false}
+{"id": "g31", "prompt": "Aumente a cobertura de testes do módulo de pagamentos", "lang": "pt", "expected": "testing", "ambiguous": true}
+{"id": "g32", "prompt": "Our tests run in parallel and share a global; make them isolated", "lang": "en", "expected": "testing", "ambiguous": false}
+{"id": "g33", "prompt": "Revise o código que acabei de escrever", "lang": "pt", "expected": "review", "ambiguous": false}
+{"id": "g34", "prompt": "Review my uncommitted changes before I open the PR", "lang": "en", "expected": "review", "ambiguous": false}
+{"id": "g35", "prompt": "Faça um code review desta PR focando em segurança e performance", "lang": "pt", "expected": "review", "ambiguous": false}
+{"id": "g36", "prompt": "Audit the Networking folder for force unwraps and retain cycles", "lang": "en", "expected": "review", "ambiguous": true}
+{"id": "g37", "prompt": "Confira se meu diff segue as boas práticas de SwiftUI e concorrência", "lang": "pt", "expected": "review", "ambiguous": true}
+{"id": "g38", "prompt": "Give me prioritized feedback on this ViewModel", "lang": "en", "expected": "review", "ambiguous": false}
+{"id": "g39", "prompt": "Revise a acessibilidade das telas que mudei hoje", "lang": "pt", "expected": "review", "ambiguous": true}
+{"id": "g40", "prompt": "Look over this PR and tell me what to fix first", "lang": "en", "expected": "review", "ambiguous": false}
+{"id": "g41", "prompt": "Implemente a feature de onboarding completa: telas, carregamento assíncrono e testes", "lang": "pt", "expected": "cross-cutting", "ambiguous": false}
+{"id": "g42", "prompt": "Plan the migration of the whole app to Swift 6, including views, services and tests", "lang": "en", "expected": "cross-cutting", "ambiguous": false}
+{"id": "g43", "prompt": "Qual arquitetura devo usar para este app, MVVM ou TCA?", "lang": "pt", "expected": "cross-cutting", "ambiguous": false}
+{"id": "g44", "prompt": "Design a modular architecture with SPM packages for our feature modules", "lang": "en", "expected": "cross-cutting", "ambiguous": false}
+{"id": "g45", "prompt": "Construa uma tela de feed com paginação, cache offline e testes de unidade", "lang": "pt", "expected": "cross-cutting", "ambiguous": false}
+{"id": "g46", "prompt": "Build a login flow with biometrics, async token refresh and tests", "lang": "en", "expected": "cross-cutting", "ambiguous": false}
+{"id": "g47", "prompt": "Planeje a adoção do iOS 26 com Liquid Glass sem quebrar concorrência e testes", "lang": "pt", "expected": "cross-cutting", "ambiguous": false}
+{"id": "g48", "prompt": "Refactor the checkout feature end to end and keep the tests green", "lang": "en", "expected": "cross-cutting", "ambiguous": false}
+{"id": "g49", "prompt": "Divida este epic de busca em tarefas para a equipe de agentes", "lang": "pt", "expected": "cross-cutting", "ambiguous": false}
+{"id": "g50", "prompt": "How should we structure state, networking and tests for a new chat feature?", "lang": "en", "expected": "cross-cutting", "ambiguous": false}
+{"id": "g51", "prompt": "Crie a tela de perfil e garanta que o carregamento seja seguro com actors", "lang": "pt", "expected": "cross-cutting", "ambiguous": true}
+{"id": "g52", "prompt": "Add a widget with live data, make it concurrency-safe and test it", "lang": "en", "expected": "cross-cutting", "ambiguous": false}
+{"id": "g53", "prompt": "Faça uma proposta de arquitetura e um roadmap para extrair o módulo de pagamentos", "lang": "pt", "expected": "cross-cutting", "ambiguous": false}
+{"id": "g54", "prompt": "Estimate and sequence the work for a full SwiftData migration", "lang": "en", "expected": "cross-cutting", "ambiguous": true}
+{"id": "g55", "prompt": "Escreva um script Python que renomeia arquivos em lote", "lang": "pt", "expected": "not-ios", "ambiguous": false}
+{"id": "g56", "prompt": "Explain the difference between TCP and UDP", "lang": "en", "expected": "not-ios", "ambiguous": false}
+{"id": "g57", "prompt": "Corrija este erro de TypeScript no meu backend Node", "lang": "pt", "expected": "not-ios", "ambiguous": false}
+{"id": "g58", "prompt": "Write a SQL query for monthly active users", "lang": "en", "expected": "not-ios", "ambiguous": false}
+{"id": "g59", "prompt": "Resuma este artigo para mim", "lang": "pt", "expected": "not-ios", "ambiguous": false}
+{"id": "g60", "prompt": "Set up a GitHub Action that runs ESLint", "lang": "en", "expected": "not-ios", "ambiguous": false}
