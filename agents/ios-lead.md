@@ -1,6 +1,6 @@
 ---
 name: ios-lead
-description: Coordinates iOS work that spans SwiftUI, concurrency, testing, or architecture.
+description: Coordinates iOS work that spans two or more of SwiftUI, concurrency, testing, or architecture. Not for single-domain tasks; use the matching specialist directly.
 kind: local
 tools:
   - read_file
